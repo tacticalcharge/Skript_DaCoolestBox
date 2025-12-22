@@ -1,0 +1,11 @@
+command /echest [<player>]:
+	aliases: /ec
+	permission: op
+	description: View another player's ender chest
+	usage: /echest [<player>]
+	trigger:
+		if arg-1 is set:
+			set {_target} to arg-1
+		else:
+			set {_target} to player
+		open ender chest of {_target} for player
