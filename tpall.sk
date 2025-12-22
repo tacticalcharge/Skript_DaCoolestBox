@@ -1,0 +1,22 @@
+command /tpall:
+	permission: op
+	description: Teleport all players to you
+	trigger:
+		loop all players:
+			teleport loop-player to player
+		broadcast "&aAll players have been teleported to %player%!"
+		
+		
+		
+command /bring <player>:
+	permission: op
+	description: Teleport a player to you
+	usage: /bring <player>
+	trigger:
+		if arg-1 is not set:
+			send "&cUsage: /bring <player>"
+			stop
+		set {_target} to arg-1
+		teleport {_target} to player
+		send "&a%{_target}% has been teleported to you." to player
+		send "&aYou have been teleported to %player%." to {_target}

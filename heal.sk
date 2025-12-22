@@ -1,0 +1,13 @@
+command /heal [<player>]:
+	permission: op
+	permission message: "&cYou do not have permission to use this command."
+	description: "Heal yourself to full health."
+	
+	trigger:
+		if arg-1 is set:
+			set arg-1's health to arg-1's max health
+			send "&aYou have been healed!" to arg-1
+			send "&aYou have healed %arg-1%!" to player
+		else:
+			set player's health to player's max health
+			send "&aYou have been healed!" to player

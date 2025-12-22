@@ -1,0 +1,45 @@
+command /setjail:
+	permission: jail.set
+	description: Set the jail location
+	executable by: players
+	trigger:
+		set {jail.location} to location of player
+		send "&aJail location set to your current location."
+		
+command /jail <player>:
+	permission: jail.use
+	description: Jail a player
+	executable by: players
+	trigger:
+		if arg-1 is not set:
+			send "&cUsage: /jail <player>"
+			stop
+		set {_target} to arg-1
+		if {jail.%{_target}%} is true:
+			send "&c%{_target}% is already jailed."
+			stop
+		if {jail.location} is not set:
+			send "&cJail location is not set. Use /setjail to set it."
+			stop
+		set {jail.%{_target}%} to true
+		teleport {_target} to {jail.location}
+		execute console command "/luckperms user %{_target}% parent add jailed"
+		execute console command "/gamemode survival %{_target}%"
+		send "&a%{_target}% has been jailed."
+		
+command /unjail <player>:
+	permission: jail.use
+	description: Unjail a player
+	executable by: players
+	trigger:
+		if arg-1 is not set:
+			send "&cUsage: /unjail <player>"
+			stop
+		set {_target} to arg-1
+		if {jail.%{_target}%} is not true:
+			send "&c%{_target}% is not jailed."
+			stop
+		set {jail.%{_target}%} to false
+		execute console command "/luckperms user %{_target}% parent remove jailed"
+		execute console command "/spawn %{_target}%"
+		send "&a%{_target}% has been unjailed."

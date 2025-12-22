@@ -1,0 +1,47 @@
+command /gmc [<player>]:
+	permission: minecraft.command.gamemode
+	permission message: "&cYou do not have permission to use this command."
+	description: Change your gamemode to creative
+	trigger:
+		if arg-1 is not set:
+			set {_target} to player
+		else:
+			set {_target} to arg-1
+		set gamemode of {_target} to creative
+		send "&aYour gamemode has been set to Creative!" to player
+		
+command /gms [<player>]:
+	permission: minecraft.command.gamemode
+	permission message: "&cYou do not have permission to use this command."
+	description: Change your gamemode to survival
+	trigger:
+		if arg-1 is not set:
+			set {_target} to player
+		else:
+			set {_target} to arg-1
+		set gamemode of {_target} to survival
+		send "&aYour gamemode has been set to Survival!" to player
+		
+command /gma [<player>]:
+	permission: minecraft.command.gamemode
+	permission message: "&cYou do not have permission to use this command."
+	description: Change your gamemode to adventure
+	trigger:
+		if arg-1 is not set:
+			set {_target} to player
+		else:
+			set {_target} to arg-1
+		set gamemode of {_target} to adventure
+		send "&aYour gamemode has been set to Adventure!" to player
+		
+command /gmsp [<player>]:
+	permission: minecraft.command.gamemode
+	permission message: "&cYou do not have permission to use this command."
+	description: Change your gamemode to spectator
+	trigger:
+		if arg-1 is not set:
+			set {_target} to player
+		else:
+			set {_target} to arg-1
+		set gamemode of {_target} to spectator
+		send "&aYour gamemode has been set to Spectator!" to player
