@@ -1,0 +1,19 @@
+command /msg <player> <text>:
+	aliases: /pm, /w, /tell, /whisper
+	permission: message.use
+	description: Send a private message to another player
+	usage: /msg <player> <message>
+	trigger:
+		if arg-1 is not set:
+			send "&cUsage: /msg <player> <message>" to player
+			stop
+		if arg-2 is not set:
+			send "&cUsage: /msg <player> <message>" to player
+			stop
+		set {_target} to arg-1
+		set {_message} to arg-2
+		if {_target} is not online:
+			send "&cPlayer %{_target}% is not online." to player
+			stop
+		send "&7[&eYou -> %{_target}%&7]: &f%{_message}%" to player
+		send "&7[&e%player% -> You&7]: &f%{_message}%" to {_target}
