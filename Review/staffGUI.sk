@@ -1,0 +1,52 @@
+command /staffgui [<player>]:
+	aliases: staff, st
+	permission: staff.use
+	trigger:
+	# decide target first, then check online
+		if arg-1 is set:
+			if arg-1 is not online:
+				send "&cThat player is offline." to player
+				stop
+			set {_target} to arg-1
+		else:
+			set {_target} to player
+			
+		create a gui with virtual chest inventory with 3 rows named "&cStaff Tools: %{_target}%":
+			make gui slot 3 with barrier named "&cKick":
+				kick {_target} due to "Kicked by staff"
+				
+			make gui slot 5 with redstone block named "&4Ban":
+				ban {_target} due to "Banned by staff"
+				
+			make gui slot 11 with chest named "&aInvsee":
+				open inventory of {_target} to player
+				
+			make gui slot 15 with ender chest named "&5Enderchest":
+				open ender chest of {_target} to player
+				
+			make gui slot 13 with ender pearl named "&dTeleport":
+				teleport player to {_target}
+				
+			make gui slot 19 with emerald named "&aGamemode" with lore "&bCurrent gamemode: %gamemode of {_target}%":
+				if gamemode of {_target} is survival:
+					set gamemode of {_target} to creative
+					send "&aSet %{_target}% to Creative mode." to player
+					send "&aYour gamemode has been set to Creative mode by a staff member." to {_target}
+				else:
+					set gamemode of {_target} to survival
+					send "&aSet %{_target}% to Survival mode." to player
+					send "&aYour gamemode has been set to Survival mode by a staff member." to {_target}
+			make gui slot 21 with golden apple named "&aHeal":
+				set health of {_target} to max health of {_target}
+				send "&aYou have been healed by a staff member." to {_target}
+				send "&aHealed %{_target}%." to player
+			make gui slot 23 with cooked beef named "&6Feed":
+				set food level of {_target} to 20
+				send "&aYou have been fed by a staff member." to {_target}
+				send "&aFed %{_target}%." to player
+				
+			make gui slot 25 with lava bucket named "&6Clear Inventory":
+				clear inventory of {_target}
+				send "&aYour inventory has been cleared by a staff member." to {_target}
+				send "&aCleared inventory of %{_target}%." to player
+		open last gui to player
