@@ -62,10 +62,18 @@ command /staffgui [<player>]:
 				send "&aFed %{_target}%." to player
 				
 			make gui slot 25 with lava bucket named "&6Clear Inventory":
-				clear inventory of {_target}
-				if {_target} is not player:
-					send "&aYour inventory has been cleared by a staff member." to {_target}
-				send "&aCleared inventory of %{_target}%." to player
+				create a gui with virtual chest inventory with 1 row named "&cConfirm clear inventory?":
+					make gui slot 2 with green concrete named "&aYes":
+						clear inventory of {_target}
+						if {_target} is not player:
+							send "&aYour inventory has been cleared by a staff member." to {_target}
+						send "&aCleared inventory of %{_target}%." to player
+						close player's inventory
+					make gui slot 6 with red concrete named "&cNo":
+						close player's inventory
+						wait 1 tick
+						execute player command "/staffgui %{_target}%"
+				open last gui to player
 		open last gui to player
 
 
