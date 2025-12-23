@@ -13,11 +13,19 @@ command /staffgui [<player>]:
 			
 		create a gui with virtual chest inventory with 3 rows named "&cStaff Tools: %{_target}%":
 			make gui slot 3 with barrier named "&cKick":
-				kick {_target} due to "Kicked by staff"
-				
+				close player's inventory
+				set {staff.action.%player's uuid%} to "kick"
+				set {staff.target.%player's uuid%} to {_target}
+				send "&cType the kick reason in chat."
+				send "&cType &e'cancel' &cto cancel."
+
 			make gui slot 5 with redstone block named "&4Ban":
-				ban {_target} due to "Banned by staff"
-				
+				close player's inventory
+				set {staff.action.%player's uuid%} to "ban"
+				set {staff.target.%player's uuid%} to {_target}
+				send "&cType the ban reason in chat."
+				send "&cType &e'cancel' &cto cancel."
+
 			make gui slot 11 with chest named "&aInvsee":
 				open inventory of {_target} to player
 				
@@ -59,3 +67,34 @@ command /staffgui [<player>]:
 					send "&aYour inventory has been cleared by a staff member." to {_target}
 				send "&aCleared inventory of %{_target}%." to player
 		open last gui to player
+
+
+on chat:
+	if {staff.action.%player's uuid%} is not set:
+		stop
+
+	cancel event
+	set {_msg} to message
+
+	if {_msg} is "cancel":
+		delete {staff.action.%player's uuid%}
+		delete {staff.target.%player's uuid%}
+		send "&aAction cancelled."
+		stop
+
+	set {_target} to {staff.target.%player's uuid%}
+	if {_target} is not online:
+		send "&cThat player is no longer online."
+		stop
+
+	if {staff.action.%player's uuid%} is "kick":
+		kick {_target} due to {_msg}
+		send "&aKicked %{_target}% for: %{_msg}%"
+
+	else if {staff.action.%player's uuid%} is "ban":
+		ban {_target} due to {_msg}
+		kick {_target} due to "You have been banned: %{_msg}%"
+		send "&aBanned %{_target}% for: %{_msg}%"
+
+	delete {staff.action.%player's uuid%}
+	delete {staff.target.%player's uuid%}

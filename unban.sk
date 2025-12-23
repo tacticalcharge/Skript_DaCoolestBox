@@ -1,0 +1,14 @@
+command /unban <offlineplayer>:
+	permission: staff.unban
+	description: Unban a player
+	executable by: players
+	trigger:
+		if arg-1 is not set:
+			send "&cUsage: /unban <player>"
+			stop
+		set {_target} to arg-1
+		if {_target} is not banned:
+			send "&c%{_target}% is not banned."
+			stop
+		unban {_target}
+		send "&a%{_target}% has been unbanned."
