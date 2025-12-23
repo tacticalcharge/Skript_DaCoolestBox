@@ -1,0 +1,48 @@
+command /builder:
+    permission: skript.builder.toggle
+    trigger:
+        if {builder.%uuid of player%} is not set:
+            # Enable builder mode
+            set {builder.%uuid of player%} to true
+
+            # Save inventory
+            delete {builderinv.%uuid of player%::*} # cleanup
+            loop 36 times:
+                set {builderinv.%uuid of player%.%loop-number%} to player's slot (loop-number - 1)
+
+            # Save armor
+            set {builderarmor.%uuid of player%.helmet} to helmet of player
+            set {builderarmor.%uuid of player%.chestplate} to chestplate of player
+            set {builderarmor.%uuid of player%.leggings} to leggings of player
+            set {builderarmor.%uuid of player%.boots} to boots of player
+
+            # Clear player and give wand
+            clear player's inventory
+            clear player's armor
+            execute console command "execute as %player% run /wand"
+
+            send "&aBuilder mode ENABLED!" to player
+        else:
+            # Disable builder mode
+            delete {builder.%uuid of player%}
+
+            # Clear builder items
+            clear player's inventory
+            clear player's armor
+
+            # Restore inventory
+            loop 36 times:
+                if {builderinv.%uuid of player%.%loop-number%} is set:
+                    set player's slot (loop-number - 1) to {builderinv.%uuid of player%.%loop-number%}
+
+            # Restore armor
+            set helmet of player to {builderarmor.%uuid of player%.helmet}
+            set chestplate of player to {builderarmor.%uuid of player%.chestplate}
+            set leggings of player to {builderarmor.%uuid of player%.leggings}
+            set boots of player to {builderarmor.%uuid of player%.boots}
+
+            # Delete saved data
+            delete {builderinv.%uuid of player%::*}
+            delete {builderarmor.%uuid of player%::*}
+
+            send "&cBuilder mode DISABLED!" to player
