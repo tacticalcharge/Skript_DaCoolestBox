@@ -38,6 +38,10 @@ command /staffgui [<player>]:
 					send "&aSet %{_target}% to Survival mode." to player
 					if {_target} is not player:
 						send "&aYour gamemode has been set to Survival mode by a staff member." to {_target}
+               # refresh it to show the right gamemode 
+				close player's inventory
+				wait 2 ticks
+				execute player command "/staffgui %{_target}%"
 			make gui slot 21 with golden apple named "&aHeal":
 				set health of {_target} to max health of {_target}
 				if {_target} is not player:
