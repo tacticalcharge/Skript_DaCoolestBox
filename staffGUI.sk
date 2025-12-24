@@ -4,9 +4,6 @@ command /staffgui [<player>]:
 	trigger:
 	# decide target first, then check online
 		if arg-1 is set:
-			if arg-1 is not online:
-				send "&cThat player is offline." to player
-				stop
 			set {_target} to arg-1
 		else:
 			set {_target} to player
